@@ -1,0 +1,15 @@
+[Unit]
+Description=Igc Server App in Container
+After=docker.service
+
+[Service]
+TimeoutStartSec=200
+Restart=always
+ExecStartPre=-/usr/bin/docker stop main-app
+ExecStartPre=-/usr/bin/docker rm main-app
+ExecStartPre=/bin/bash -c '/usr/bin/aws ecr get-login-password --region ${aws_region} | docker login --username AWS --password-stdin ${docker_ecr_url}'
+ExecStartPre=/usr/bin/docker pull ${docker_ecr_url}:latest
+ExecStart=/usr/bin/docker run --rm --name main-app  -p 3000:3000 -p 4353:4353 ${docker_ecr_url}:latest
+
+[Install]
+WantedBy=multi-user.target

@@ -1,2 +1,4 @@
 /infra.iml
 /.idea/
+/local/
+/.terraform/
