@@ -84,6 +84,10 @@ resource "aws_instance" "igc_server" {
 
   iam_instance_profile = aws_iam_instance_profile.igc_instance_profile.name
 
+  root_block_device {
+    volume_size           = 4
+  }
+
   tags = {
     Name = "igc-server"
   }
